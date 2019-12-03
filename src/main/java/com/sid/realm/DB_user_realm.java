@@ -112,8 +112,8 @@ public class DB_user_realm extends RealmBase {
             try (ResultSet resultSet = statement.executeQuery( "select " + this.getDBRoleColumn() + 
                 " from " + this.getDBRoleTable() + " where 1=1 " + this.getRoleIncludes() + this.getRoleExcludes() ) ) {
                 while (resultSet.next() ) { /* Moves forward */
-                    UserRoles.add(resultSet.getString(1).toLowerCase() ); // case Insensitive machen?
-                    log.finest("Authentication is taking place for the user: " + this.username + " Role(1): " + resultSet.getString(1).toLowerCase() );
+                    UserRoles.add(resultSet.getString(1) ); // case Sensitive
+                    log.finest("Authentication is taking place for the user: " + this.username + " Role(1): " + resultSet.getString(1) );
                 }
                 connection.close();
                 return getPrincipal( this.getName() );
