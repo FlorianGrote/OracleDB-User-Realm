@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.sid.realm;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -29,8 +24,9 @@ public class DB_user_realm extends RealmBase {
     private String password;
     private String DBUser; /* Proxy Datebank Account */
     private String DBPassword; /* Proxy Datanebank account */
-    private String DBRole;  /* Manuelle DBRollen vergabe */
+    // private String DBRole;  /* Manuelle DBRollen vergabe */
     private String DBUrl;
+    private String DBUserColumn = "USERNAME";
     private String DBRoleColumn = "granted_role";
     private String DBRoleTable = "USER_ROLE_PRIVS";
     private String RoleIncludes = "";
@@ -109,8 +105,12 @@ public class DB_user_realm extends RealmBase {
             //Stattdessen ein SQL um die Rollen abzufragen und diese in den Principle setzen.
             Statement statement = connection.createStatement();
 
+            // Name ist Case insensitive
             try (ResultSet resultSet = statement.executeQuery( "select " + this.getDBRoleColumn() + 
-                " from " + this.getDBRoleTable() + " where 1=1 " + this.getRoleIncludes() + this.getRoleExcludes() ) ) {
+                " from " + this.getDBRoleTable() + " where 1=1 " +
+                " and lower(" + this.DBUserColumn + ") = " + this.getName().toLowerCase()
+                + this.getRoleIncludes()
+                + this.getRoleExcludes() ) ) {
                 while (resultSet.next() ) { /* Moves forward */
                     UserRoles.add(resultSet.getString(1) ); // case Sensitive
                     log.finest("Authentication is taking place for the user: " + this.username + " Role(1): " + resultSet.getString(1) );
@@ -120,17 +120,15 @@ public class DB_user_realm extends RealmBase {
             }
             catch(SQLException e2) {
                 connection.close();
-                log.severe("SQL ERROR: " + e2.getErrorCode() + " State: " + e2.getSQLState() );
-                log.severe("SQL ERROR: " + e2.getMessage() );
-                log.severe("SQL ERROR: " + e2.getCause() );
+                log.fine("SQL ERROR: " + e2.getMessage() );
                 return null;
+                // throw e2;
             }
         }
         catch(SQLException e) {
-            log.severe("SQL ERROR: " + e.getErrorCode() + " State: " + e.getSQLState() );
-            log.severe("SQL ERROR: " + e.getMessage() );
-            log.severe("SQL ERROR: " + e.getCause() );
+            log.fine("SQL ERROR: " + e.getMessage() );
             return null;
+            // throw e;
         }
     }
 
@@ -168,6 +166,13 @@ public class DB_user_realm extends RealmBase {
     }
     public void setDBRoleColumn(String DBRoleColumn) {
         this.DBRoleColumn = DBRoleColumn;
+    }
+
+    public String getDBUserColumn() {
+        return this.DBRoleColumn;
+    }
+    public void setDBUserColumn(String DBUserColumn) {
+        this.DBUserColumn = DBUserColumn;
     }
 
     public String getRoleIncludes() {

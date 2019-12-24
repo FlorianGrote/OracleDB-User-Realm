@@ -16,6 +16,7 @@ Example Realm configuration
 
 ```xml
 <Realm className="com.sid.realm.DB_user_realm"
+    DBUserColumn="username"
     DBRoleColumn="granted_role"
     DBRoleTable="USER_ROLE_PRIVS"
     DBUrl="jdbc:oracle:thin:<DB_USER_NAME>/DB_USER_PWASSWORD>@localhost:1521:xe" 
