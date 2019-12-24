@@ -18,7 +18,7 @@ Example Realm configuration
 <Realm className="com.sid.realm.DB_user_realm"
     DBRoleColumn="granted_role"
     DBRoleTable="USER_ROLE_PRIVS"
-    DBUrl="<YOUR DATABASE URL>" 
+    DBUrl="jdbc:oracle:thin:<DB_USER_NAME>/DB_USER_PWASSWORD>@localhost:1521:xe" 
 />
 ```
 The USER_ROLE_PRIVS are the granted Database User priviliges and roles
