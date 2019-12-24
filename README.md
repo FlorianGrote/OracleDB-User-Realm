@@ -8,6 +8,7 @@ Follow the instruction below:
 4) Start tomcat "catalina.sh run"
 
 For successful authentication you just need to Add the DBUrl Parameter. The DBRoleColumn name. And the DBRoleTable name.
+Die User Table muss für alle selectable sein. Public Synoym erstellen!
 You can optionally Whitelist with RoleInclude Parameter.
 You can optionally Blacklist with RoleExclude Parameter
 
