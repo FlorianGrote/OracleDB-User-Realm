@@ -107,8 +107,8 @@ public class DB_user_realm extends RealmBase {
 
             // Name ist Case insensitive
             try (ResultSet resultSet = statement.executeQuery( "select " + this.getDBRoleColumn() + 
-                " from " + this.getDBRoleTable() + " where 1=1 " +
-                " and lower(" + this.DBUserColumn + ") = \"" + this.getName().toLowerCase() + "\""
+                " from " + this.getDBRoleTable() + " where 1=1" +
+                " and lower(" + this.DBUserColumn + ") = '" + this.getName().toLowerCase() + "'"
                 + this.getRoleIncludes()
                 + this.getRoleExcludes() ) ) {
                 while (resultSet.next() ) { /* Moves forward */
